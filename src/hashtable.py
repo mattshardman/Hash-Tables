@@ -32,6 +32,37 @@ class HashTable:
 
     
 
+    def insert(self, key, value):
+        # hash key
+        hashed_key = self._hash(key)
+        # if None set key value pair and return
+        if not self.storage[hashed_key]:
+            self.storage[hashed_key] = LinkedPair(key, value)
+            # increment count 
+            self.count += 1
+
+        # if not none check to see if the key already exists in the linked list
+        # if it does replace its value with the new value and return
+        if self.storage[hashed_key]:
+            current_item = self.storage[hashed_key]
+            # loop through linked list to see if key exists
+            while current_item:
+                # if keys match set value of item to new value
+                if current_item.key == key:
+                    current_item.value = value
+                    break
+                else:
+                    current_item = current_item.next
+
+            # if the key is not already in the linked list add the new pair to the head of the linked list
+            if not current_item:
+                new_item = LinkedPair(key, value)
+                new_item.next = self.storage[hashed_key]
+                self.storage[hashed_key] = new_item
+
+   
+
+
 if __name__ == "__main__":
     ht = HashTable(2)
 
