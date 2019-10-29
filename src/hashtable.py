@@ -82,6 +82,25 @@ class HashTable:
                  # if no key found print error      
                 print("No value at this key")
 
+    def retrieve(self, key):
+        # hash key
+        hashed_key = self._hash(key)
+        # if nothing at key return none
+        if not self.storage[hashed_key]:
+            return None
+        # if items exists loop through linked list 
+        else:
+            current_item = self.storage[hashed_key]
+            while current_item:
+                # if key found return value
+                if current_item.key == key:
+                    return current_item.value
+                else:
+                    current_item = current_item.next
+            # otherwise return None
+            if not current_item:
+                return None
+
 
 
 if __name__ == "__main__":
