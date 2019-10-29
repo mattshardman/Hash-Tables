@@ -23,18 +23,16 @@ class HashTable:
         return hash(key) % self.capacity
 
     def _hash_djb2(self, key):
-        '''
-        Hash an arbitrary key using DJB2 hash
+        hashed_key = 0
 
-        OPTIONAL STRETCH: Research and implement DJB2
-        '''
-        pass
-
-    
+        for i in range(len(key)):
+            hashed_key = hashed_key * 33 + ord(key[i])
+        
+        return hashed_key % self.capacity
 
     def insert(self, key, value):
         # hash key
-        hashed_key = self._hash(key)
+        hashed_key = self._hash_djb2(key)
         # if None set key value pair and return
         if not self.storage[hashed_key]:
             self.storage[hashed_key] = LinkedPair(key, value)
@@ -59,11 +57,10 @@ class HashTable:
                 new_item = LinkedPair(key, value)
                 new_item.next = self.storage[hashed_key]
                 self.storage[hashed_key] = new_item
-
    
     def remove(self, key):
         # hash key
-        hashed_key = self._hash(key)
+        hashed_key = self._hash_djb2(key)
         # if none at key print error
         if not self.storage[hashed_key]:
             print("No value at this key")
@@ -84,7 +81,7 @@ class HashTable:
 
     def retrieve(self, key):
         # hash key
-        hashed_key = self._hash(key)
+        hashed_key = self._hash_djb2(key)
         # if nothing at key return none
         if not self.storage[hashed_key]:
             return None
