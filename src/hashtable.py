@@ -101,7 +101,39 @@ class HashTable:
             if not current_item:
                 return None
 
+    def resize(self):
+        # if storage is over 0.7 capacity double size
+        if self.get_load() > 0.7:
+            # add additional capacity to storage
+            self.storage = self.storage + ([None] * self.capacity)
+            # double self.capacity
+            self.capacity *= 2
+            # set count to 0
+            self.count = 0
+            # loop through keys
+            for i in range(self.capacity):
+                current_item = self.storage[i]
+                # loop through linked list for each key and call insert on each item
+                while current_item:
+                    self.insert(current_item.key, current_item.value)
+                    current_item = current_item.next
+        
+        elif (self.get_load() < 0.2) and (self.capacity > self.initial_capacity):
+            prev_capacity = self.capacity
+            storage = self.storage
+            self.capacity /= 2
+            self.storage = [None] * self.capacity
+            self.count = 0
 
+            for i in range(prev_capacity):
+                current_item = storage[i]
+                # loop through linked list for each key and call insert on each item
+                while current_item:
+                    self.insert(current_item.key, current_item.value)
+                    current_item = current_item.next
+                    
+    def get_load(self):
+        return self.count / self.capacity
 
 if __name__ == "__main__":
     ht = HashTable(2)
