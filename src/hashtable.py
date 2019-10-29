@@ -61,6 +61,27 @@ class HashTable:
                 self.storage[hashed_key] = new_item
 
    
+    def remove(self, key):
+        # hash key
+        hashed_key = self._hash(key)
+        # if none at key print error
+        if not self.storage[hashed_key]:
+            print("No value at this key")
+        # if value at key, loop through linked list and find value to remove
+        else:
+            current_item = self.storage[hashed_key]
+            while current_item:
+                # set value to none
+                if current_item.key == key:
+                    current_item.value = None
+                    break
+                else:
+                    current_item = current_item.next
+            
+            if not current_item:
+                 # if no key found print error      
+                print("No value at this key")
+
 
 
 if __name__ == "__main__":
